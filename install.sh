@@ -1,7 +1,6 @@
 #!/bin/bash
 # Prompt User for Installation
 
-
 currentDir=$(
   cd $(dirname "$0")
   pwd
@@ -33,8 +32,6 @@ save_original $HOME_PROF
 echo "export SSPARI_PATH=$SSPARI_PATH" >> "/home/$user/.profile"
 echo "export SSPARI_BACKUP_PATH=$SSPARI_PATH/backup_files" >> "/home/$user/.profile"
 
-
-
 log "Select Your Install Options"
 # Begins Logging
 
@@ -52,33 +49,25 @@ SoundCardInstall="y"
 GMedia="n"
 SNAPCAST="n"
 
-
-
 # Prompts the User to check whether or not to use individual names for the chosen devices
 # Asks for All Devices Identical Name
-MYNAME={{BT_NAME}}
+MYNAME=<%= @bt_name %>
 APName=$MYNAME
 BluetoothName=$MYNAME
 AirPlayName=$MYNAME
 GMediaName=$MYNAME
 SNAPNAME=$MYNAME
 
-
-
 AirPlaySecured="n"
 AirPlayPass=""
-# Asks user if AirPlay password should be set
-# YesNo "Do you want to use an AirPlay password? (y/n) : " && AirPlaySecured="y"
-# # Prompts user for AirPlay password
-# if [ "$AirPlaySecured" = "y" ]
-# then
-# 	read -p "Device AirPlay password: " AirPlayPass
-# fi
+<% if @airplay_pass == true %>
+AirPlaySecured="y"
+AirPlayPass=<%= @airplay_pass %>
+<% end %>
 
-
-	installlog "2. HifiBerry DAC Standard/Pro"
-	SoundCard="SoundCard"
-	SoundCard=2
+installlog "2. HifiBerry DAC Standard/Pro"
+SoundCard="SoundCard"
+SoundCard=2
 
 chmod +x ./*.sh
 # Updates and Upgrades the Raspberry Pi
@@ -110,13 +99,11 @@ then
 else
         run su ${user} -c ./bt_pa_config.sh
 	#for _dep in ${vol_groups[@]}; do     usermod -aG "$_dep" $user; done
-	
 
 fi
 
 export SoundCard
 run ./sound_card_install.sh 
-
 
 # If AirPlay is Chosen, it installs AirPlay Dependencies and issues commands for proper configuration
 export SoundCard
