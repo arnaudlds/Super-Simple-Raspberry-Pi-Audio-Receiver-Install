@@ -142,38 +142,38 @@ exc sudo patch /etc/bluetooth/main.conf << EOT
   #Class = 0x000100
 + Class = 0x200414
 
-***************
-*** 15,17 ****
+#***************
+#*** 15,17 ****
   # 0 = disable timer, i.e. stay discoverable forever
-! #DiscoverableTimeout = 0
+#! #DiscoverableTimeout = 0
 
---- 17,19 ----
+#--- 17,19 ----
   # 0 = disable timer, i.e. stay discoverable forever
-! DiscoverableTimeout = 0
-EOT
+#! DiscoverableTimeout = 0
+#EOT
 
 save_original /etc/pulse/system.pa
-exc sudo patch /etc/pulse/system.pa << EOT
-***************
-*** 23,25 ****
-  .ifexists module-udev-detect.so
-! load-module module-udev-detect
-  .else
---- 23,26 ----
-  .ifexists module-udev-detect.so
-! #load-module module-udev-detect
-! load-module module-udev-detect tsched=0
-  .else
-***************
-*** 57 ****
---- 58,63 ----
-  load-module module-position-event-sounds
-+
-+ ### Automatically load driver modules for Bluetooth hardware
-+ .ifexists module-bluetooth-discover.so
-+     load-module module-bluetooth-discover
-+ .endif
-EOT
+#exc sudo patch /etc/pulse/system.pa << EOT
+#***************
+#*** 23,25 ****
+#  .ifexists module-udev-detect.so
+#! load-module module-udev-detect
+#  .else
+#--- 23,26 ----
+#  .ifexists module-udev-detect.so
+#! #load-module module-udev-detect
+#! load-module module-udev-detect tsched=0
+#  .else
+#***************
+#*** 57 ****
+#--- 58,63 ----
+#  load-module module-position-event-sounds
+#+
+#+ ### Automatically load driver modules for Bluetooth hardware
+#+ .ifexists module-bluetooth-discover.so
+#+     load-module module-bluetooth-discover
+#+ .endif
+#EOT
 
 
 #sudo service bluetooth start &
