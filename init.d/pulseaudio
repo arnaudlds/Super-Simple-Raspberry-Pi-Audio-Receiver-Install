@@ -16,6 +16,9 @@ DAEMON=/usr/local/bin/pulseaudio
 PIDDIR=/var/run/pulse
 PIDFILE=$PIDDIR/pid
 DAEMONUSER=pulse
+DAEMONGROUP=pulse-access
+DISALLOWMODULELOADING=0
+UMASK=007
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 test -x $DAEMON || exit 0
@@ -28,7 +31,8 @@ pulseaudio_start () {
                 mkdir -p $PIDDIR
                 chown $DAEMONUSER:$DAEMONUSER $PIDDIR
         fi
-        start-stop-daemon -x $DAEMON -p $PIDFILE --start -- --system --disallow-exit --disallow-module-loading=0 --daemonize --log-target=syslog --high-priority
+        #start-stop-daemon -x $DAEMON -p $PIDFILE --start -- --system --disallow-exit --disallow-module-loading=0 --daemonize --log-target=syslog --high-priority
+        start-stop-daemon -x $DAEMON -p $PIDFILE --start --umask ${UMASK} --user ${DAEMONUSER} --group ${DAEMONGROUP} --chuid ${DAEMONUSER}:${DAEMONGROUP} -- --start --disallow-exit --disallow-module-loading=${DISALLOWMODULELOADING} --daemonize --log-target=syslog --high-priority
         status=$?
         if [ -e /var/run/pulse/.esd_auth ]; then
                 chown pulse:pulse-access /var/run/pulse/.esd_auth
