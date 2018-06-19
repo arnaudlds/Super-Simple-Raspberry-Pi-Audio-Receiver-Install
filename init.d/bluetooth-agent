@@ -18,7 +18,8 @@ case "$1" in
         echo "setting bluetooth discoverable"
 	sleep 1
         sudo hciconfig hci0 piscan
-        start-stop-daemon -S -x /usr/local/bin/simple-agent.autotrust &
+#        start-stop-daemon -S -x /usr/local/bin/simple-agent.autotrust &
+	start-stop-daemon -S -x /opt/newee/bluetooth/enable_bt_pin.sh &
         echo "bluetooth-agent started"
         ;;
     stop)
