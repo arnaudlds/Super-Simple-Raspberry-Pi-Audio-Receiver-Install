@@ -24,7 +24,7 @@ case "$1" in
         ;;
     stop)
         echo "Stopping bluetooth-agent"
-        start-stop-daemon -K -x /usr/local/bin/simple-agent.autotrust
+        start-stop-daemon -K -x /usr/bin/python /usr/local/bin/simple-agent.autotrust
         ;;
     *)
         echo "Usage: /etc/init.d/bluetooth-agent {start|stop}"
